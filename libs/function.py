@@ -357,72 +357,72 @@ def get_GMR_fig(name_list, GMR_selection, mov_av):
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[0],
                     name="{} RAR".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[0]),
                     name="{} RAR".format(name))
     if "GAP" in GMR_selection:
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[1],
                     name="{} GAP".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[1]),
                     name="{} GAP".format(name))
     if "PAR" in GMR_selection:
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[2],
                     name="{} PAR".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[2]),
                     name="{} PAR".format(name))
     if "TAS" in GMR_selection:
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[3],
                     name="{} TAS".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[3]),
                     name="{} TAS".format(name))
     if "WOR" in GMR_selection:
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[4],
                     name="{} WOR".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[4]),
                     name="{} WOR".format(name))
     if "RES" in GMR_selection:
         for name in name_list:
             if mov_av == 'No':
                 fig.add_scatter(
-                    x=data.time_list,
+                    x=GMR_data.time_list_GMR,
                     y=get_GMR_list(select_list(name))[5],
                     name="{} RES".format(name))
             else:
                 fig.add_scatter(
-                    x=data.time_list[2:-2],
+                    x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[5]),
                     name="{} RES".format(name))
 
