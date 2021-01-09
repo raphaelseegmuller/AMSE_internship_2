@@ -28,7 +28,7 @@ fig.update_layout(
         'xanchor': 'center',
         'yanchor': 'top'},
     title_font_size=30,
-    xaxis={'title': 'Date (jour/mois)'},
+    xaxis={'title': 'Date (day/month)'},
     yaxis={'title': 'Case number'})
 for name in name_list:
     fig.add_scatter(
@@ -178,7 +178,7 @@ def update_graph(name_list):
             'xanchor': 'center',
             'yanchor': 'top'},
         title_font_size=30,
-        xaxis={'title': 'Date (jour/mois)'},
+        xaxis={'title': 'Date (day/month)'},
         yaxis={'title': 'Case number'})
     for name in name_list:
         new_fig.add_scatter(
