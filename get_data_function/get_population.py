@@ -1,6 +1,4 @@
 import xlrd
-import numpy as np
-
 
 workbook = xlrd.open_workbook('estim-pop-dep-sexe-gca-1975-2020.xls')
 SheetNameList = workbook.sheet_names()
