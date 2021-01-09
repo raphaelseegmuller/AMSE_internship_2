@@ -1,5 +1,4 @@
 import xlrd
-import numpy as np
 
 workbook = xlrd.open_workbook('FR_Region_Mobility_Report.xlsx')
 SheetNameList = workbook.sheet_names()
@@ -104,5 +103,8 @@ def get_gmr_matrix(beginning):
         res_list += [get_value(str(mySheet.row(l)[0]))]
     return res_list
 
+
+# start value must be chosen depending on the department from which you want to extract the data #
+start = 30946  # here we extract data concerning the Vaucluse
 
 print(get_gmr_matrix(30946))
