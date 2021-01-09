@@ -53,22 +53,29 @@ def get_covid_case_list(dep):
     return np.asarray(res_list)
 
 
-def get_covid_death_list(dep):
+def get_covid_case_list_2(dep):
     """
-    Get the confirmed death list of one french department.
+    Get the confirmed covid list of one french department. NORMALIZE
     :param dep: str, french department from departments_list
     :return: numpy.ndarray
     """
     dep_num = get_department_index(dep)
+    dep_pop = data.french_department_population[dep_num]
     res_list = []
-    for t_list in data.confirmed_death_france_list:
-        res_list += [t_list[dep_num]]
+    for t_list in data.confirmed_covid_france_value_ma_list:
+        if t_list[dep_num] == None:
+            res_list += [None]
+        else:
+            res_list += [t_list[dep_num] / dep_pop]
     return np.asarray(res_list)
 
 
 def None_replace(GMR_list):
     for i in range(len(GMR_list)):
         if GMR_list[i] == None:
+            if i <= 6:
+                print("No simplification")
+                return GMR_list
             if i > 6:
                 GMR_list[i] = (GMR_list[i - 7] + 2 * GMR_list[i - 6] + 3 * GMR_list[i - 5] + 4 * GMR_list[i - 4] + 5 *
                                GMR_list[i - 3] + 6 * GMR_list[i - 2] + 7 * GMR_list[i - 1]) / 28
@@ -91,6 +98,7 @@ def get_GMR_list(var):
     """
     RAR, GAP, PAR, TAS, WOR, RES = [], [], [], [], [], []
     for t_list in var:
+        # print(t_list)
         RAR += [t_list[0]]
         GAP += [t_list[1]]
         PAR += [t_list[2]]
@@ -335,6 +343,24 @@ def get_moving_av_list(GMR_list):
     return new_list
 
 
+def get_moving_av_list_2(GMR_list):
+    new_list = np.zeros(len(GMR_list) - 14)
+    for i in range(7, len(GMR_list) - 7):
+        new_list[i - 7] = (GMR_list[i - 7] + 2 * GMR_list[i - 6] + 3 * GMR_list[i - 5] + 4 * GMR_list[i - 4] + 5 *
+                           GMR_list[i - 3] + 6 * GMR_list[i - 2] + 7 * GMR_list[i - 1] + 8 * GMR_list[i] + GMR_list[
+                               i + 7] + 2 * GMR_list[i + 6] + 3 * GMR_list[i + 5] + 4 * GMR_list[i + 4] + 5 * GMR_list[
+                               i + 3] + 6 * GMR_list[i + 2] + 7 * GMR_list[i + 1]) / 67
+    return new_list
+
+
+def get_PAR_max_list(name_list):
+    new_list = []
+    for name in name_list:
+        print(name)
+        new_list += [[int(np.max(get_moving_av_list_2(get_GMR_list(select_list(name))[2])))]]
+    return new_list
+
+
 def get_GMR_fig(name_list, GMR_selection, mov_av):
     fig = make_subplots(rows=1, cols=1)
     if len(GMR_selection) == 1 and len(name_list) == 1:
@@ -424,6 +450,100 @@ def get_GMR_fig(name_list, GMR_selection, mov_av):
                 fig.add_scatter(
                     x=GMR_data.time_list_GMR[2:-2],
                     y=get_moving_av_list(get_GMR_list(select_list(name))[5]),
+                    name="{} RES".format(name))
+
+    return fig
+
+
+def get_GMR_fig_2(name_list, GMR_selection, mov_av):
+    fig = make_subplots(rows=1, cols=1)
+    if len(GMR_selection) == 1 and len(name_list) == 1:
+        title = "{} - {} - COVID 19".format(name_list[0], GMR_selection[0])
+    elif len(GMR_selection) == 1:
+        title = "{} - COVID 19".format(GMR_selection[0])
+    else:
+        title = "Google mobility report - COVID 19"
+    fig.update_layout(
+        title={
+            'text': title,
+            'y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'},
+        title_font_size=30,
+        xaxis={'title': 'Date (day/month)'},
+        yaxis={'title': 'Percentage'})
+    if "RAR" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[0],
+                    name="{} RAR".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[0]),
+                    name="{} RAR".format(name))
+    if "GAP" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[1],
+                    name="{} GAP".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[1]),
+                    name="{} GAP".format(name))
+    if "PAR" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[2],
+                    name="{} PAR".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[2]),
+                    name="{} PAR".format(name))
+    if "TAS" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[3],
+                    name="{} TAS".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[3]),
+                    name="{} TAS".format(name))
+    if "WOR" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[4],
+                    name="{} WOR".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[4]),
+                    name="{} WOR".format(name))
+    if "RES" in GMR_selection:
+        for name in name_list:
+            if mov_av == 'No':
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR,
+                    y=get_GMR_list(select_list(name))[5],
+                    name="{} RES".format(name))
+            else:
+                fig.add_scatter(
+                    x=GMR_data.time_list_GMR[7:-7],
+                    y=get_moving_av_list_2(get_GMR_list(select_list(name))[5]),
                     name="{} RES".format(name))
 
     return fig
