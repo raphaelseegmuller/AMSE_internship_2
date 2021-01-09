@@ -8,7 +8,6 @@ from plotly.subplots import make_subplots
 import data
 from libs import function
 
-
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -36,8 +35,6 @@ for name in name_list:
         x=data.time_list,
         y=function.get_covid_case_list(name),
         name="{}".format(name))
-
-
 
 app.layout = html.Div(children=[
     dcc.Graph(
@@ -170,9 +167,7 @@ def department(name):
 @app.callback(
     Output('graph', 'figure'),
     [Input('Department_choice', 'value')
-    ])
-
-
+     ])
 def update_graph(name_list):
     new_fig = make_subplots(rows=1, cols=1)
     new_fig.update_layout(
@@ -191,6 +186,7 @@ def update_graph(name_list):
             y=function.get_covid_case_list(name),
             name="{}".format(name))
     return new_fig
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
