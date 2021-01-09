@@ -1,5 +1,4 @@
 import xlrd
-import numpy as np
 
 D = dict()
 D["01"] = 26
@@ -150,22 +149,4 @@ def generate_final_list():
     return final_list
 
 
-
-# print(mySheet)
-# print(type(mySheet))
-# print(str(mySheet.row(1)[0]))
-# for i in str(mySheet.row(1)[0]):
-#     print(i)
-# print(str(mySheet.row(1)[0])[6:8])
-# print(str(mySheet.row(1)[0])[D[str(mySheet.row(1)[0])[6:8]]])
-# print(get_number(str(mySheet.row(325)[0])))
-# G = generate_list(1)
-# print(generate_list(1))
-# for i in range(len(G)):
-#     print(i, G[i])
-# print("###############")
-# print(str(mySheet.row(12840)[0]))
-# print(get_number(str(mySheet.row(12840)[0])))
-# print(type(get_number(str(mySheet.row(12840)[0]))))
-# print(float(get_number(str(mySheet.row(12840)[0]))))
 print(generate_final_list())
