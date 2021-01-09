@@ -98,7 +98,6 @@ def get_GMR_list(var):
     """
     RAR, GAP, PAR, TAS, WOR, RES = [], [], [], [], [], []
     for t_list in var:
-        # print(t_list)
         RAR += [t_list[0]]
         GAP += [t_list[1]]
         PAR += [t_list[2]]
@@ -356,7 +355,6 @@ def get_moving_av_list_2(GMR_list):
 def get_PAR_max_list(name_list):
     new_list = []
     for name in name_list:
-        print(name)
         new_list += [[int(np.max(get_moving_av_list_2(get_GMR_list(select_list(name))[2])))]]
     return new_list
 
